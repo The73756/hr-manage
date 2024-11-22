@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
 const buttonVariants = cva(
-  "rounded-lg font-bold text-xl whitespace-nowrap transition-colors duration-300",
+  "rounded-lg font-semibold sm:font-bold sm:text-2xl whitespace-nowrap transition-colors duration-300",
   {
     variants: {
       intent: {

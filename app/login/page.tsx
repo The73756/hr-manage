@@ -7,13 +7,15 @@ export default function Login() {
     <>
       <Header />
       <div className="custom-container">
-        <div className="flex flex-col gap-20">
-          <h1 className="max-w-[390px] font-semibold text-4xl text-blue">
+        <div className="flex flex-col flex-shrink-0 gap-20 w-full md:w-[420px]">
+          <h1 className="md:max-w-[390px] font-semibold text-2xl text-blue sm:text-3xl md:text-4xl">
             Авторизуйтесь, чтобы использовать сервис
           </h1>
           <LoginForm />
         </div>
-        <Image src="/img-1.png" alt="" aria-hidden width={530} height={404} />
+        <div className="flex max-md:hidden">
+          <Image src="/img-1.png" alt="" aria-hidden width={530} height={404} />
+        </div>
       </div>
     </>
   );
