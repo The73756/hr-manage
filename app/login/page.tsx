@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { LoginForm } from "@/components/login-form";
 import Image from "next/image";
 
 export default function Login() {
@@ -10,6 +11,7 @@ export default function Login() {
           <h1 className="max-w-[390px] font-semibold text-4xl text-blue">
             Авторизуйтесь, чтобы использовать сервис
           </h1>
+          <LoginForm />
         </div>
         <Image src="/img-1.png" alt="" aria-hidden width={530} height={404} />
       </div>
