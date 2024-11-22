@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 export const Header = () => {
   return (
@@ -8,6 +9,7 @@ export const Header = () => {
         <Link href="/">
           <Image src="/logo.svg" alt="logo" width={154} height={70} />
         </Link>
+        <Button intent="secondary">drjg</Button>
       </div>
     </div>
   );
