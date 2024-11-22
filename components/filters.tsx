@@ -9,9 +9,9 @@ import { Input } from "@/components/ui/input";
 
 export const Filters = () => {
   return (
-    <div className="flex items-stretch gap-5">
+    <div className="flex flex-shrink-0 gap-5">
       <Select>
-        <SelectTrigger className="w-[125px]">
+        <SelectTrigger className="w-[120px] min-w-[120px]">
           <SelectValue placeholder="Дата" />
         </SelectTrigger>
         <SelectContent>
@@ -21,7 +21,7 @@ export const Filters = () => {
         </SelectContent>
       </Select>
       <Select>
-        <SelectTrigger className="w-[150px]">
+        <SelectTrigger className="min-w-[150px]">
           <SelectValue placeholder="Фильтровать" />
         </SelectTrigger>
         <SelectContent>
@@ -31,7 +31,7 @@ export const Filters = () => {
         </SelectContent>
       </Select>
       <Select>
-        <SelectTrigger className="w-[150px]">
+        <SelectTrigger className="min-w-[150px]">
           <SelectValue placeholder="Сортировать" />
         </SelectTrigger>
         <SelectContent>
@@ -40,7 +40,7 @@ export const Filters = () => {
           <SelectItem value="3">По зарплате</SelectItem>
         </SelectContent>
       </Select>
-      <Input placeholder="Найти работника..." />
+      <Input className="min-w-[270px]" placeholder="Найти работника..." />
     </div>
   );
 };
