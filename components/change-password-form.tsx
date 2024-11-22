@@ -13,17 +13,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
-const formSchema = z.object({
-  email: z.string().email({ message: "Некорректные данные" }),
-  password: z.string().min(6, { message: "Некорректная длина пароля" }),
-});
+const formSchema = z
+  .object({
+    password: z.string().min(6, { message: "Некорректная длина пароля" }),
+    doublePassword: z.string().min(6, { message: "Некорректная длина пароля" }),
+  })
+  .refine((data) => data.password === data.doublePassword, {
+    message: "Пароли не совпадают",
+    path: ["doublePassword"],
+  });
 
-export const LoginForm = () => {
+export const ChangePasswordForm = () => {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      doublePassword: "",
       password: "",
     },
   });
@@ -31,7 +36,7 @@ export const LoginForm = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     form.reset();
-    router.push("/first-auth");
+    router.push("/");
   }
 
   return (
@@ -41,18 +46,6 @@ export const LoginForm = () => {
         className="space-y-8 w-[420px]"
       >
         <div className="space-y-5">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Электронная почта" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="password"
@@ -65,9 +58,25 @@ export const LoginForm = () => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="doublePassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Повторите пароль"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button className="w-full" type="submit">
-          Войти
+          Сохранить
         </Button>
       </form>
     </Form>
