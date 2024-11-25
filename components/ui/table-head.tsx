@@ -8,7 +8,7 @@ interface TableHeadProps {
 export const TableHead = ({ children, className }: TableHeadProps) => {
   return (
     <div
-      className={`bg-blue-light px-4 py-2 rounded-lg font-bold text-center text-white ${className}`}
+      className={`bg-blue-light px-4 py-2 rounded-lg font-bold text-center flex items-center justify-center text-white ${className}`}
     >
       {children}
     </div>
