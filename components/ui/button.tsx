@@ -9,7 +9,7 @@ const buttonVariants = cva(
       intent: {
         primary: "px-8 py-2 bg-blue text-white",
         secondary: "px-8 py-2 text-red border border-red",
-        icon: "flex justify-center text-grey hover:text-beige items-center bg-beige rounded-full w-12 h-12",
+        icon: "flex justify-center text-white items-center w-[43px] h-[43px]",
       },
     },
     defaultVariants: {
