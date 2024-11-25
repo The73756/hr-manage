@@ -25,17 +25,9 @@ const formSchema = z.object({
     }),
   email: z.string().email({ message: "Некорректные данные" }),
   password: z.string().min(6, { message: "Некорректная длина пароля" }),
-  workStart: z
-    .string()
-    .time({ message: "Некорректное время" })
-    .min(1, { message: "Это обязательное поле" }),
-  workEnd: z
-    .string()
-    .time({ message: "Некорректное время" })
-    .min(1, { message: "Это обязательное поле" }),
-  salaryRate: z
-    .number({ message: "Это обязательное поле" })
-    .min(1, { message: "Ставка должна быть больше 0" }),
+  workStart: z.string().min(1, { message: "Это обязательное поле" }),
+  workEnd: z.string().min(1, { message: "Это обязательное поле" }),
+  salaryRate: z.string().min(1, { message: "Это обязательное поле" }),
 });
 
 export const AddForm = () => {
@@ -57,7 +49,6 @@ export const AddForm = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     form.reset();
-    router.push("/first-auth");
   }
 
   return (
