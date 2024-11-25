@@ -35,6 +35,6 @@
   }
 
   .custom-container {
-    @apply mx-auto px-4 max-w-[1112px] flex justify-between items-center gap-20 min-h-[calc(100vh-111px)];
+    @apply mx-auto px-4 my-5 max-w-[1112px] flex justify-between items-center gap-20 min-h-[calc(100vh-111px)];
   }
 }

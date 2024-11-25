@@ -6,7 +6,7 @@ export default function Add() {
   return (
     <>
       <Header />
-      <div className="custom-container my-5">
+      <div className="custom-container">
         <div className="flex max-md:hidden">
           <Image src="/img-2.png" alt="" aria-hidden width={530} height={404} />
         </div>
