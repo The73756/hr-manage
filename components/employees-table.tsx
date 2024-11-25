@@ -2,7 +2,7 @@ import { DeleteIcon } from "./shared/delete-icon";
 import { EditIcon } from "./shared/edit-icon";
 import { Button } from "./ui/button";
 import { TableCell } from "./ui/table-cell";
-import { TableEmployee } from "./ui/table-employee";
+import { EmployeeCell } from "./ui/employee-cell";
 import { TableHead } from "./ui/table-head";
 
 export const EmployeesTable = () => {
@@ -21,7 +21,7 @@ export const EmployeesTable = () => {
       </div>
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((employee) => (
         <div key={employee} className="gap-6 grid grid-cols-4 mb-2 w-full">
-          <TableEmployee>Иванов Иван Иванович</TableEmployee>
+          <EmployeeCell id={employee}>Иванов Иван Иванович</EmployeeCell>
           <div className="gap-2 grid grid-cols-[repeat(24,minmax(0,1fr))] col-span-3">
             <TableCell className="col-span-5">08:00-17:00</TableCell>
             <TableCell className="col-span-4">08:00</TableCell>
