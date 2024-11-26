@@ -37,4 +37,20 @@
   .custom-container {
     @apply mx-auto px-4 my-10 max-w-[1112px] flex justify-between items-center gap-20 min-h-[calc(100vh-111px)];
   }
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-1 /* Ширина скроллбара */;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent /* Цвет фона трека */;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-blue-light rounded-md /* Цвет ползунка */;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-blue-light/70;
+  }
 }
