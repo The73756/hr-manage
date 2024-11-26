@@ -39,7 +39,7 @@
   }
 
   ::-webkit-scrollbar {
-    @apply w-2 h-1 /* Ширина скроллбара */;
+    @apply w-2 h-2 /* Ширина скроллбара */;
   }
 
   ::-webkit-scrollbar-track {
