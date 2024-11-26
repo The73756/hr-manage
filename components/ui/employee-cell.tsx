@@ -10,7 +10,7 @@ export const EmployeeCell = ({ children, id }: TableEmployeeProps) => {
   return (
     <Link
       href={`/employee/${id}`}
-      className="bg-blue-light/20 px-4 py-2 rounded-lg font-bold text-blue-light text-lg"
+      className="bg-blue-light/20 px-4 py-2 rounded-lg font-bold text-blue-light max-md:text-sm xl:text-lg"
     >
       {children}
     </Link>
