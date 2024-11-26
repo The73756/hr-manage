@@ -4,6 +4,16 @@ import { Button } from "./ui/button";
 import { TableCell } from "./ui/table-cell";
 import { EmployeeCell } from "./ui/employee-cell";
 import { TableHead } from "./ui/table-head";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export const EmployeesTable = () => {
   return (
@@ -40,9 +50,34 @@ export const EmployeesTable = () => {
                 <Button className="bg-blue" intent="icon">
                   <EditIcon />
                 </Button>
-                <Button className="bg-red" intent="icon">
-                  <DeleteIcon />
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className="bg-red" intent="icon">
+                      <DeleteIcon />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Удалить выбранного работника?</DialogTitle>
+                      <DialogDescription>
+                        Это действие нельзя отменить
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <Button className="bg-red w-full text-white">
+                        Удалить
+                      </Button>
+                      <DialogClose asChild>
+                        <Button
+                          intent="secondary"
+                          className="border-blue w-full text-blue"
+                        >
+                          Отменить
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </div>
