@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, HTMLProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 const buttonVariants = cva(
-  "rounded-lg font-semibold sm:font-bold sm:text-2xl whitespace-nowrap transition-colors duration-300",
+  "rounded-lg font-semibold sm:font-bold md:text-xl lg:text-2xl whitespace-nowrap transition-colors duration-300",
   {
     variants: {
       intent: {
