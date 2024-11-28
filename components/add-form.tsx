@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   surname: z.string().min(1, { message: "Это обязательное поле" }),
@@ -31,7 +31,7 @@ const formSchema = z.object({
 });
 
 export const AddForm = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
