@@ -5,9 +5,7 @@ interface loginProps {
   password: string;
 }
 
-export async function login({ email, password }: loginProps) {
-  console.log(apiUrl);
-
+export const login = async ({ email, password }: loginProps) => {
   try {
     if (apiUrl) {
       const res = await fetch(apiUrl + "/login", {
@@ -32,4 +30,4 @@ export async function login({ email, password }: loginProps) {
   } catch (error) {
     console.error(error);
   }
-}
+};

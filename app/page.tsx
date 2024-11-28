@@ -1,6 +1,7 @@
 import { EmployeesTable } from "@/components/employees-table";
 import { FilterBar } from "@/components/filter-bar";
 import { Header } from "@/components/header";
+import { ProtectedRoute } from "@/components/protected-route";
 import {
   Pagination,
   PaginationContent,
@@ -12,7 +13,7 @@ import {
 
 export default function Home() {
   return (
-    <>
+    <ProtectedRoute>
       <Header />
       <div className="py-16 container">
         <FilterBar />
@@ -35,6 +36,6 @@ export default function Home() {
           </PaginationContent>
         </Pagination>
       </div>
-    </>
+    </ProtectedRoute>
   );
 }

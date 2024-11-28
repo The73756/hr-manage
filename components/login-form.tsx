@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { login } from "@/api";
+import { useUserStore } from "@/store/user-store";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Некорректные данные" }),
@@ -20,6 +21,8 @@ const formSchema = z.object({
 });
 
 export const LoginForm = () => {
+  const setUser = useUserStore((state) => state.setUser);
+  const setIsAuth = useUserStore((state) => state.setIsAuth);
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,10 +35,13 @@ export const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
     try {
-      const user = await login(values);
-      if (user) {
+      const authUser = await login(values);
+      if (authUser) {
         form.reset();
-        router.push("/first-auth");
+        // router.push("/first-auth");
+        router.push("/");
+        setUser(authUser);
+        setIsAuth(true);
       } else {
       }
     } catch (error) {
