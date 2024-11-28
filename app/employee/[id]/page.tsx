@@ -11,6 +11,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function EmployeePage() {
   return (
@@ -30,8 +41,33 @@ export default function EmployeePage() {
             </SelectContent>
           </Select>
           <div className="flex gap-5 max-md:hidden">
-            <Button>Редактировать работника</Button>
-            <Button intent="secondary">Удалить работника</Button>
+            <Button>
+              <Link href="/edit">Редактировать работника</Link>
+            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button intent="secondary">Удалить работника</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Удалить выбранного работника?</DialogTitle>
+                  <DialogDescription>
+                    Это действие нельзя отменить
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button className="bg-red w-full text-white">Удалить</Button>
+                  <DialogClose asChild>
+                    <Button
+                      intent="secondary"
+                      className="border-blue w-full text-blue"
+                    >
+                      Отменить
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="flex gap-2 md:hidden">
             <Button className="bg-blue" intent="icon">

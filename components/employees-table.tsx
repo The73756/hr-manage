@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { User } from "@/types/user";
+import Link from "next/link";
 
 interface EmployeesTableProps {
   employees: User[];
@@ -55,7 +56,9 @@ export const EmployeesTable = ({ employees }: EmployeesTableProps) => {
               <TableCell className="col-span-4">50 000</TableCell>
               <div className="flex justify-end gap-2 col-span-4 lg:col-span-3">
                 <Button className="bg-blue" intent="icon">
-                  <EditIcon />
+                  <Link href="edit">
+                    <EditIcon />
+                  </Link>
                 </Button>
                 <Dialog>
                   <DialogTrigger asChild>
