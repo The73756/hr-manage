@@ -21,7 +21,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     } else {
       router.push("/login");
     }
-  }, [auth, router]);
+  }, []);
 
   return auth ? children : null;
 };

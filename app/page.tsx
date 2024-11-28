@@ -1,3 +1,4 @@
+import { getEmployees } from "@/api";
 import { EmployeesTable } from "@/components/employees-table";
 import { FilterBar } from "@/components/filter-bar";
 import { Header } from "@/components/header";
@@ -10,14 +11,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { User } from "@/types/user";
 
-export default function Home() {
+export default async function Home() {
+  const employees = (await getEmployees()) as User[];
+
   return (
     <ProtectedRoute>
       <Header />
       <div className="py-16 container">
         <FilterBar />
-        <EmployeesTable />
+        <EmployeesTable employees={employees} />
         <Pagination>
           <PaginationContent>
             <PaginationItem>

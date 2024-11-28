@@ -14,8 +14,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { User } from "@/types/user";
 
-export const EmployeesTable = () => {
+interface EmployeesTableProps {
+  employees: User[];
+}
+
+export const EmployeesTable = ({ employees }: EmployeesTableProps) => {
   return (
     <div className="my-16 overflow-x-auto">
       <div className="w-full min-w-[915px]">
@@ -32,12 +37,14 @@ export const EmployeesTable = () => {
             <span />
           </div>
         </div>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((employee) => (
+        {employees.map((employee) => (
           <div
-            key={employee}
+            key={employee.id}
             className="gap-4 lg:gap-6 grid grid-cols-5 md:grid-cols-4 mb-2 w-full"
           >
-            <EmployeeCell id={employee}>Иванов Иван Иванович</EmployeeCell>
+            <EmployeeCell id={employee.id}>
+              {employee.surname} {employee.name} {employee.patronymic}
+            </EmployeeCell>
             <div className="gap-2 grid grid-cols-[repeat(24,minmax(0,1fr))] col-span-4 md:col-span-3">
               <TableCell className="col-span-4 lg:col-span-5">
                 08:00-17:00
