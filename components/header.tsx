@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -11,9 +12,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/user-store";
 
 export const Header = () => {
-  const user = true;
+  const router = useRouter();
+  const setIsAuth = useUserStore((state) => state.setIsAuth);
+  const setUser = useUserStore((state) => state.setUser);
+  const auth = useUserStore((state) => state.isAuth);
+
+  const logout = () => {
+    setUser({});
+    setIsAuth(false);
+    localStorage.removeItem("user");
+    router.push("/login");
+  };
 
   return (
     <div className="py-5 border-b border-b-blue-light">
@@ -21,7 +34,7 @@ export const Header = () => {
         <Link href="/">
           <Image src="/logo.svg" alt="logo" width={154} height={70} />
         </Link>
-        {user && (
+        {auth && (
           <Dialog>
             <DialogTrigger asChild>
               <Button intent="secondary">Выйти</Button>
@@ -34,7 +47,9 @@ export const Header = () => {
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Button className="bg-red w-full text-white">Выйти</Button>
+                <Button onClick={logout} className="bg-red w-full text-white">
+                  Выйти
+                </Button>
                 <DialogClose asChild>
                   <Button
                     intent="secondary"
