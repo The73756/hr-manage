@@ -1,1 +1,18 @@
-{}
+{
+  "users": [
+    {
+      "id": 1,
+      "surname": "Иванов",
+      "name": "Иван",
+      "patronymic": "Иванович",
+      "phone": "89990009900",
+      "email": "ivanov@gmail.com",
+      "password": "1234567890",
+      "salaryRate": 800,
+      "role": "ADMIN"
+    }
+  ],
+  "workDays": [],
+  "salary": [],
+  "schedule": []
+}

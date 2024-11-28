@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { login } from "@/api";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Некорректные данные" }),
@@ -28,11 +29,19 @@ export const LoginForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
-    form.reset();
-    router.push("/first-auth");
-  }
+    try {
+      const user = await login(values);
+      if (user) {
+        form.reset();
+        router.push("/first-auth");
+      } else {
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Form {...form}>
