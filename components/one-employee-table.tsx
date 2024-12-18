@@ -26,7 +26,7 @@ export const OneEmployeeTable = ({data}: OneEmployeeTableProps) => {
         </TableCell>
         <TableCell>{data.workDay?.startTime || "-"}</TableCell>
         <TableCell>{data.workDay?.endTime || "-"}</TableCell>
-        <TableCell className={data.workDay?.totalTime > 8 ? 'bg-green/50' : 'bg-red/50'}>{data.workDay?.totalTime || "-"}</TableCell>
+        <TableCell className={data.workDay?.totalTime >= 8 ? 'bg-green/50' : 'bg-red/50'}>{data.workDay?.totalTime || "-"}</TableCell>
         <TableCell>{data.salary?.totalSalary || "-"}</TableCell>
       </div>
     </div>
