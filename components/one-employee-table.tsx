@@ -3,10 +3,14 @@ import {TableHead} from "./ui/table-head";
 import {Schedule} from "@/types/schedule";
 
 interface OneEmployeeTableProps {
-  schedule: Schedule
+  data: {
+    schedule: Schedule
+    workDay: any
+    salary: any
+  }
 }
 
-export const OneEmployeeTable = ({schedule}: OneEmployeeTableProps) => {
+export const OneEmployeeTable = ({data}: OneEmployeeTableProps) => {
   return (
     <div className="max-md:flex max-md:gap-2 mt-16 w-full">
       <div className="gap-2 grid md:grid-cols-5 max-md:grid-rows-5 md:mb-2 w-full">
@@ -18,12 +22,12 @@ export const OneEmployeeTable = ({schedule}: OneEmployeeTableProps) => {
       </div>
       <div className="gap-2 grid md:grid-cols-5 max-md:grid-rows-5 md:mb-2 w-full">
         <TableCell>
-          {schedule?.startWork}-{schedule?.endWork}
+          {data.schedule?.startWork}-{data.schedule?.endWork}
         </TableCell>
-        <TableCell>08:00</TableCell>
-        <TableCell>17:00</TableCell>
-        <TableCell>8:30</TableCell>
-        <TableCell>50 000</TableCell>
+        <TableCell>{data.workDay?.startTime || "-"}</TableCell>
+        <TableCell>{data.workDay?.endTime || "-"}</TableCell>
+        <TableCell className={data.workDay?.totalTime > 8 ? 'bg-green/50' : 'bg-red/50'}>{data.workDay?.totalTime || "-"}</TableCell>
+        <TableCell>{data.salary?.totalSalary || "-"}</TableCell>
       </div>
     </div>
   );

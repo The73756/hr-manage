@@ -15,14 +15,14 @@ import { User } from "@/types/user";
 import {Schedule} from "@/types/schedule";
 
 export default async function Home() {
-  const {employees, schedules} = (await getEmployees()) as {employees: User[], schedules: Schedule[]};
+  const {employees, schedules, workDays, salaries} = (await getEmployees()) as {employees: User[], schedules: Schedule[], workDays: any, schedules: any};
 
   return (
     <ProtectedRoute>
       <Header />
       <div className="py-16 container">
         <FilterBar />
-        <EmployeesTable data={{employees, schedules}} />
+        <EmployeesTable data={{employees, schedules, workDays, salaries}} />
         <Pagination>
           <PaginationContent>
             <PaginationItem>

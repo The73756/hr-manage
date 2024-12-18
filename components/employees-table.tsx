@@ -25,18 +25,30 @@ interface EmployeesTableProps {
   data: {
     employees: User[];
     schedules: Schedule[]
+    workDays: any
+    salaries: any
   }
 }
 
 export const EmployeesTable = ({ data }: EmployeesTableProps) => {
   const employees = useEmployeeStore(state => state.employees);
   const schedules = useEmployeeStore(state => state.schedules);
+  const workDays = useEmployeeStore(state => state.workDays)
+  const salaries = useEmployeeStore(state => state.salaries)
   const setEmployees = useEmployeeStore(state => state.setEmployees);
   const setSchedules = useEmployeeStore(state => state.setSchedules);
+  const setWorkDays = useEmployeeStore(state => state.setWorkDays);
+  const setSalaries = useEmployeeStore(state => state.setSalaries);
+
+  const currentDate = "2024-12-18"
+  const currentWorkDay = workDays.filter(day => day.date === currentDate)
+  const currentSalaries = salaries.filter(salary => salary.monthDate.split("-")[1] === currentDate.split("-")[1])
 
   useEffect(() => {
     setEmployees(data.employees)
     setSchedules(data.schedules)
+    setWorkDays(data.workDays)
+    setSalaries(data.salaries)
   }, [data]);
 
   return (
@@ -67,10 +79,10 @@ export const EmployeesTable = ({ data }: EmployeesTableProps) => {
               <TableCell className="col-span-4 lg:col-span-5">
                 {schedules.find(schedule => schedule.userId === employee.id) ? `${schedules.find(schedule => schedule.id === employee.id)?.startWork}-${schedules.find(schedule => schedule.id === employee.id)?.endWork}` : "-"}
               </TableCell>
-              <TableCell className="col-span-4">08:00</TableCell>
-              <TableCell className="col-span-4">17:00</TableCell>
-              <TableCell className="col-span-4">8:30</TableCell>
-              <TableCell className="col-span-4">50 000</TableCell>
+              <TableCell className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.startTime || "-"}</TableCell>
+              <TableCell className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.endTime || "-"}</TableCell>
+              <TableCell className={`col-span-4 ${currentWorkDay.find(date => date.userId === employee.id)?.totalTime > 8 ? 'bg-green/50' : 'bg-red/50'}`}>{currentWorkDay.find(date => date.userId === employee.id)?.totalTime || '-'}</TableCell>
+              <TableCell className="col-span-4">{currentSalaries.find(salary => salary.userId === employee.id)?.totalSalary || "-"}</TableCell>
               <div className="flex justify-end gap-2 col-span-4 lg:col-span-3">
                 <Button className="bg-blue" intent="icon">
                   <Link href="/edit">

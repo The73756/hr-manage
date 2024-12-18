@@ -33,6 +33,8 @@ interface Props {
   data: {
     employees: User[];
     schedules: Schedule[];
+    workDays: any
+    salaries: any
   };
 }
 
@@ -41,22 +43,34 @@ export const EmployeePage = ({data}: Props) => {
   const id = Number(params.id)
   const employees = useEmployeeStore(state => state.employees);
   const schedules = useEmployeeStore(state => state.schedules);
+  const workDays = useEmployeeStore(state => state.workDays)
+  const salaries = useEmployeeStore(state => state.salaries)
   const setEmployees = useEmployeeStore(state => state.setEmployees);
   const setSchedules = useEmployeeStore(state => state.setSchedules);
+  const setWorkDays = useEmployeeStore(state => state.setWorkDays);
+  const setSalaries = useEmployeeStore(state => state.setSalaries);
+
   const [employee, setEmployee] = useState<User>();
   const [schedule, setSchedule] = useState<Schedule>();
+  const [workDay, setWorkDay] = useState();
+  const [salary, setSalary] = useState();
+  const currentDate = "2024-12-18"
 
   useEffect(() => {
     setEmployees(data.employees);
     setSchedules(data.schedules);
-  }, [data, setEmployees, setSchedules]);
+    setWorkDays(data.workDays)
+    setSalaries(data.salaries)
+  }, [data]);
 
   useEffect(() => {
     if (employees.length > 0 && schedules.length > 0) {
       setEmployee(employees.find(emp => emp.id === id));
       setSchedule(schedules.find(sch => sch.userId === id));
+      setWorkDay(workDays.find(emp => emp.userId === id && emp.date === currentDate));
+      setSalary(salaries.find(sch => sch.userId === id && sch.monthDate.split("-")[1] === currentDate.split("-")[1]));
     }
-  }, [id, employees, schedules]);
+  }, [id, employees, schedules, workDays, salaries]);
 
   return (
     <>
@@ -112,7 +126,7 @@ export const EmployeePage = ({data}: Props) => {
             </Button>
           </div>
         </div>
-        {schedule && <OneEmployeeTable schedule={schedule} /> }
+        {schedule && <OneEmployeeTable data={{schedule, workDay, salary}} /> }
       </div>
     </>
   );

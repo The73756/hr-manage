@@ -4,9 +4,8 @@ import {User} from "@/types/user";
 import {Schedule} from "@/types/schedule";
 
 export default async function OneEmployeePage() {
-  const {employees, schedules} = (await getEmployees()) as {employees: User[], schedules: Schedule[]};
-
+  const {employees, schedules, workDays, salaries} = (await getEmployees()) as {employees: User[], schedules: Schedule[], workDays: any, schedules: any};
   return (
-    <EmployeePage data={{employees, schedules}} />
+    <EmployeePage data={{employees, schedules, workDays, salaries}} />
   );
 }

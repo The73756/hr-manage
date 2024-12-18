@@ -33,7 +33,33 @@ export const getEmployees = async () => {
 
       const schedules = await scheduleRes.json();
 
-      return {employees, schedules};
+      const workDaysRes = await fetch(apiUrl + "/workDays", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!workDaysRes.ok) {
+        console.log("Failed to get work days");
+        return;
+      }
+
+      const workDays = await workDaysRes.json();
+
+      const salaryRes = await fetch(apiUrl + "/salary", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!salaryRes.ok) {
+        console.log("Failed to get salaries");
+        return;
+      }
+
+      const salaries = await salaryRes.json();
+
+      return { employees, schedules, workDays, salaries };
     }
   } catch (error) {
     console.error(error);
