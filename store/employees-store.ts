@@ -24,7 +24,7 @@ interface EmployeeState {
   workDays: WorkDay[];
   salaries: Salary[];
   addEmployee: (employee: User) => void;
-  removeEmployee: (id: string) => void;
+  removeEmployee: (id: number) => void;
   setEmployees: (employees: User[]) => void;
   addSchedule: (schedule: Schedule) => void;
   setSchedules: (schedules: Schedule[]) => void;

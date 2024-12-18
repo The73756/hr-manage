@@ -1,10 +1,10 @@
 "use client"
-import { EmployeeInfo } from "@/components/employee-info";
-import { Header } from "@/components/header";
-import { OneEmployeeTable } from "@/components/one-employee-table";
-import { DeleteIcon } from "@/components/shared/delete-icon";
-import { EditIcon } from "@/components/shared/edit-icon";
-import { Button } from "@/components/ui/button";
+import {EmployeeInfo} from "@/components/employee-info";
+import {Header} from "@/components/header";
+import {OneEmployeeTable} from "@/components/one-employee-table";
+import {DeleteIcon} from "@/components/shared/delete-icon";
+import {EditIcon} from "@/components/shared/edit-icon";
+import {Button} from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -25,9 +25,10 @@ import {
 } from "@/components/ui/dialog";
 import {useEffect, useState} from "react";
 import {useEmployeeStore} from "@/store/employees-store";
-import {useParams} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import {Schedule} from "@/types/schedule";
 import {User} from "@/types/user";
+import {deleteEmployee} from "@/api/employee-api";
 
 interface Props {
   data: {
@@ -41,11 +42,14 @@ interface Props {
 export const EmployeePage = ({data}: Props) => {
   const params = useParams()
   const id = Number(params.id)
+  const router = useRouter()
+
   const employees = useEmployeeStore(state => state.employees);
   const schedules = useEmployeeStore(state => state.schedules);
   const workDays = useEmployeeStore(state => state.workDays)
   const salaries = useEmployeeStore(state => state.salaries)
   const setEmployees = useEmployeeStore(state => state.setEmployees);
+  const removeEmployee = useEmployeeStore(state => state.removeEmployee)
   const setSchedules = useEmployeeStore(state => state.setSchedules);
   const setWorkDays = useEmployeeStore(state => state.setWorkDays);
   const setSalaries = useEmployeeStore(state => state.setSalaries);
@@ -72,15 +76,27 @@ export const EmployeePage = ({data}: Props) => {
     }
   }, [id, employees, schedules, workDays, salaries]);
 
+  const delEmployee = async (id: number) => {
+    try {
+      const res = await deleteEmployee(id)
+      if (res) {
+        removeEmployee(id)
+        router.push("/")
+      }
+    } catch {
+      console.log('error')
+    }
+  }
+
   return (
     <>
-      <Header />
+      <Header/>
       <div className="py-16 container">
-        {employee && <EmployeeInfo employee={employee} />}
+        {employee && <EmployeeInfo employee={employee}/>}
         <div className="flex justify-between items-center gap-2">
           <Select>
             <SelectTrigger className="w-[120px] min-w-[120px]">
-              <SelectValue placeholder="Дата" />
+              <SelectValue placeholder="Дата"/>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="20.11.2024">20.11.2024</SelectItem>
@@ -104,7 +120,7 @@ export const EmployeePage = ({data}: Props) => {
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                  <Button className="bg-red w-full text-white">Удалить</Button>
+                  <Button onClick={() => delEmployee(employee.id)} className="bg-red w-full text-white">Удалить</Button>
                   <DialogClose asChild>
                     <Button
                       intent="secondary"
@@ -119,14 +135,14 @@ export const EmployeePage = ({data}: Props) => {
           </div>
           <div className="flex gap-2 md:hidden">
             <Button className="bg-blue" intent="icon">
-              <EditIcon />
+              <EditIcon/>
             </Button>
             <Button className="bg-red" intent="icon">
-              <DeleteIcon />
+              <DeleteIcon/>
             </Button>
           </div>
         </div>
-        {schedule && <OneEmployeeTable data={{schedule, workDay, salary}} /> }
+        {schedule && <OneEmployeeTable data={{schedule, workDay, salary}}/>}
       </div>
     </>
   );

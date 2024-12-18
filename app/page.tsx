@@ -23,10 +23,10 @@ export default async function Home() {
       <div className="py-16 container">
         <FilterBar />
         <EmployeesTable data={{employees, schedules, workDays, salaries}} />
-        <Pagination>
+        { /* <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href="" />
+              <PaginationPrevious href=""/>
             </PaginationItem>
             {[1, 2, 3, 4, 5].map((page) => (
               <PaginationItem key={page}>
@@ -36,10 +36,10 @@ export default async function Home() {
               </PaginationItem>
             ))}
             <PaginationItem>
-              <PaginationNext href="" />
+              <PaginationNext href=""/>
             </PaginationItem>
           </PaginationContent>
-        </Pagination>
+        </Pagination> */}
       </div>
     </ProtectedRoute>
   );

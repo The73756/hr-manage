@@ -59,7 +59,7 @@ export const getEmployees = async () => {
 
       const salaries = await salaryRes.json();
 
-      return { employees, schedules, workDays, salaries };
+      return {employees, schedules, workDays, salaries};
     }
   } catch (error) {
     console.error(error);
@@ -123,6 +123,34 @@ export const createEmployee = async (
       }
 
       return {newEmployee: newUser, schedule: await scheduleRes.json()};
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteEmployee = async (
+  id: number
+) => {
+  try {
+    if (apiUrl) {
+      const res = await fetch(`${apiUrl}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: {
+          revalidate: 0,
+          tags: ["employee"],
+        },
+      });
+
+      if (!res.ok) {
+        console.log("Failed to delete employee");
+        return;
+      }
+
+      return res.json()
     }
   } catch (error) {
     console.error(error);

@@ -1,10 +1,10 @@
 "use client"
-import { DeleteIcon } from "./shared/delete-icon";
-import { EditIcon } from "./shared/edit-icon";
-import { Button } from "./ui/button";
-import { TableCell } from "./ui/table-cell";
-import { EmployeeCell } from "./ui/employee-cell";
-import { TableHead } from "./ui/table-head";
+import {DeleteIcon} from "./shared/delete-icon";
+import {EditIcon} from "./shared/edit-icon";
+import {Button} from "./ui/button";
+import {TableCell} from "./ui/table-cell";
+import {EmployeeCell} from "./ui/employee-cell";
+import {TableHead} from "./ui/table-head";
 import {
   Dialog,
   DialogContent,
@@ -14,12 +14,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { User } from "@/types/user";
+import {DialogClose} from "@radix-ui/react-dialog";
+import {User} from "@/types/user";
 import Link from "next/link";
 import {useEmployeeStore} from "@/store/employees-store";
 import {useEffect} from "react";
 import {Schedule} from "@/types/schedule";
+import {deleteEmployee} from "@/api/employee-api";
 
 interface EmployeesTableProps {
   data: {
@@ -30,12 +31,13 @@ interface EmployeesTableProps {
   }
 }
 
-export const EmployeesTable = ({ data }: EmployeesTableProps) => {
+export const EmployeesTable = ({data}: EmployeesTableProps) => {
   const employees = useEmployeeStore(state => state.employees);
   const schedules = useEmployeeStore(state => state.schedules);
   const workDays = useEmployeeStore(state => state.workDays)
   const salaries = useEmployeeStore(state => state.salaries)
   const setEmployees = useEmployeeStore(state => state.setEmployees);
+  const removeEmployee = useEmployeeStore(state => state.removeEmployee)
   const setSchedules = useEmployeeStore(state => state.setSchedules);
   const setWorkDays = useEmployeeStore(state => state.setWorkDays);
   const setSalaries = useEmployeeStore(state => state.setSalaries);
@@ -51,11 +53,22 @@ export const EmployeesTable = ({ data }: EmployeesTableProps) => {
     setSalaries(data.salaries)
   }, [data]);
 
+  const delEmployee = async (id: number) => {
+    try {
+      const res = await deleteEmployee(id)
+      if (res) {
+        removeEmployee(id)
+      }
+    } catch {
+      console.log('error')
+    }
+  }
+
   return (
     <div className="my-16 overflow-x-auto">
       <div className="w-full min-w-[915px]">
         <div className="gap-4 lg:gap-6 grid grid-cols-5 md:grid-cols-4 mb-2 w-full">
-          <span />
+          <span/>
           <div className="gap-2 grid grid-cols-[repeat(24,minmax(0,1fr))] col-span-4 md:col-span-3">
             <TableHead className="col-span-4 lg:col-span-5">
               График работы
@@ -64,7 +77,7 @@ export const EmployeesTable = ({ data }: EmployeesTableProps) => {
             <TableHead className="col-span-4">Конец работы</TableHead>
             <TableHead className="col-span-4">Выполнено</TableHead>
             <TableHead className="col-span-4">З/п за месяц</TableHead>
-            <span />
+            <span/>
           </div>
         </div>
         {employees.map((employee) => (
@@ -79,20 +92,24 @@ export const EmployeesTable = ({ data }: EmployeesTableProps) => {
               <TableCell className="col-span-4 lg:col-span-5">
                 {schedules.find(schedule => schedule.userId === employee.id) ? `${schedules.find(schedule => schedule.id === employee.id)?.startWork}-${schedules.find(schedule => schedule.id === employee.id)?.endWork}` : "-"}
               </TableCell>
-              <TableCell className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.startTime || "-"}</TableCell>
-              <TableCell className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.endTime || "-"}</TableCell>
-              <TableCell className={`col-span-4 ${currentWorkDay.find(date => date.userId === employee.id)?.totalTime > 8 ? 'bg-green/50' : 'bg-red/50'}`}>{currentWorkDay.find(date => date.userId === employee.id)?.totalTime || '-'}</TableCell>
-              <TableCell className="col-span-4">{currentSalaries.find(salary => salary.userId === employee.id)?.totalSalary || "-"}</TableCell>
+              <TableCell
+                className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.startTime || "-"}</TableCell>
+              <TableCell
+                className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.endTime || "-"}</TableCell>
+              <TableCell
+                className={`col-span-4 ${currentWorkDay.find(date => date.userId === employee.id)?.totalTime > 8 ? 'bg-green/50' : 'bg-red/50'}`}>{currentWorkDay.find(date => date.userId === employee.id)?.totalTime || '-'}</TableCell>
+              <TableCell
+                className="col-span-4">{currentSalaries.find(salary => salary.userId === employee.id)?.totalSalary || "-"}</TableCell>
               <div className="flex justify-end gap-2 col-span-4 lg:col-span-3">
                 <Button className="bg-blue" intent="icon">
                   <Link href="/edit">
-                    <EditIcon />
+                    <EditIcon/>
                   </Link>
                 </Button>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button className="bg-red" intent="icon">
-                      <DeleteIcon />
+                      <DeleteIcon/>
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
@@ -103,9 +120,11 @@ export const EmployeesTable = ({ data }: EmployeesTableProps) => {
                       </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                      <Button className="bg-red w-full text-white">
-                        Удалить
-                      </Button>
+                      <DialogClose asChild>
+                        <Button onClick={() => delEmployee(employee.id)} className="bg-red w-full text-white">
+                          Удалить
+                        </Button>
+                      </DialogClose>
                       <DialogClose asChild>
                         <Button
                           intent="secondary"
