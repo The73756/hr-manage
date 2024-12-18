@@ -15,7 +15,7 @@ import { User } from "@/types/user";
 import {Schedule} from "@/types/schedule";
 
 export default async function Home() {
-  const {employees, schedules, workDays, salaries} = (await getEmployees()) as {employees: User[], schedules: Schedule[], workDays: any, schedules: any};
+  const {employees, schedules, workDays, salaries} = (await getEmployees()) as {employees: User[], schedules: Schedule[], workDays: any, salaries: any};
 
   return (
     <ProtectedRoute>

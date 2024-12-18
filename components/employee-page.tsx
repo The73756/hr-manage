@@ -58,7 +58,7 @@ export const EmployeePage = ({data}: Props) => {
   const [schedule, setSchedule] = useState<Schedule>();
   const [workDay, setWorkDay] = useState();
   const [salary, setSalary] = useState();
-  const currentDate = "2024-12-18"
+  const currentDate = "2024-12-19"
 
   useEffect(() => {
     setEmployees(data.employees);

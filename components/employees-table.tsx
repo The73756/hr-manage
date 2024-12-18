@@ -42,7 +42,7 @@ export const EmployeesTable = ({data}: EmployeesTableProps) => {
   const setWorkDays = useEmployeeStore(state => state.setWorkDays);
   const setSalaries = useEmployeeStore(state => state.setSalaries);
 
-  const currentDate = "2024-12-18"
+  const currentDate = "2024-12-19"
   const currentWorkDay = workDays.filter(day => day.date === currentDate)
   const currentSalaries = salaries.filter(salary => salary.monthDate.split("-")[1] === currentDate.split("-")[1])
 
