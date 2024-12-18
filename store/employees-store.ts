@@ -23,6 +23,9 @@ interface EmployeeState {
   schedules: Schedule[];
   workDays: WorkDay[];
   salaries: Salary[];
+  searchQuery: string;
+  currentDate: string;
+  sortOption: string;
   addEmployee: (employee: User) => void;
   removeEmployee: (id: number) => void;
   setEmployees: (employees: User[]) => void;
@@ -30,6 +33,9 @@ interface EmployeeState {
   setSchedules: (schedules: Schedule[]) => void;
   setWorkDays: (workDays: WorkDay[]) => void;
   setSalaries: (salaries: Salary[]) => void;
+  setSearchQuery: (query: string) => void;
+  setCurrentDate: (date: string) => void;
+  setSortOption: (option: string) => void;
 }
 
 export const useEmployeeStore = create<EmployeeState>()((set) => ({
@@ -37,6 +43,9 @@ export const useEmployeeStore = create<EmployeeState>()((set) => ({
   schedules: [],
   workDays: [],
   salaries: [],
+  searchQuery: "",
+  currentDate: "2024-12-19",
+  sortOption: "",
   addEmployee: (employee) => set((state) => ({ employees: [...state.employees, employee] })),
   removeEmployee: (id) => set((state) => ({ employees: state.employees.filter(emp => emp.id !== id) })),
   setEmployees: (employees) => set({ employees }),
@@ -44,4 +53,7 @@ export const useEmployeeStore = create<EmployeeState>()((set) => ({
   setSchedules: (schedules) => set({ schedules }),
   setWorkDays: (workDays) => set({ workDays }),
   setSalaries: (salaries) => set({ salaries }),
+  setSearchQuery: (query) => set({ searchQuery: query }),
+  setCurrentDate: (date) => set({ currentDate: date }),
+  setSortOption: (option) => set({ sortOption: option }),
 }));

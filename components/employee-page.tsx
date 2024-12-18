@@ -53,12 +53,15 @@ export const EmployeePage = ({data}: Props) => {
   const setSchedules = useEmployeeStore(state => state.setSchedules);
   const setWorkDays = useEmployeeStore(state => state.setWorkDays);
   const setSalaries = useEmployeeStore(state => state.setSalaries);
+  const currentDate = useEmployeeStore(state => state.currentDate)
+  const setCurrentDate = useEmployeeStore(state => state.setCurrentDate)
+
+  const [date, setDate] = useState(currentDate)
 
   const [employee, setEmployee] = useState<User>();
   const [schedule, setSchedule] = useState<Schedule>();
   const [workDay, setWorkDay] = useState();
   const [salary, setSalary] = useState();
-  const currentDate = "2024-12-19"
 
   useEffect(() => {
     setEmployees(data.employees);
@@ -74,7 +77,7 @@ export const EmployeePage = ({data}: Props) => {
       setWorkDay(workDays.find(emp => emp.userId === id && emp.date === currentDate));
       setSalary(salaries.find(sch => sch.userId === id && sch.monthDate.split("-")[1] === currentDate.split("-")[1]));
     }
-  }, [id, employees, schedules, workDays, salaries]);
+  }, [id, employees, schedules, workDays, salaries, currentDate]);
 
   const delEmployee = async (id: number) => {
     try {
@@ -94,14 +97,21 @@ export const EmployeePage = ({data}: Props) => {
       <div className="py-16 container">
         {employee && <EmployeeInfo employee={employee}/>}
         <div className="flex justify-between items-center gap-2">
-          <Select>
-            <SelectTrigger className="w-[120px] min-w-[120px]">
-              <SelectValue placeholder="Дата"/>
+          <Select value={date} onValueChange={(val) => {
+            setCurrentDate(val)
+            setDate(val)
+          }}>
+            <SelectTrigger className="w-full xs:w-[120px] min-w-[120px]">
+              <SelectValue placeholder="Дата" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="20.11.2024">20.11.2024</SelectItem>
-              <SelectItem value="19.11.2024">19.11.2024</SelectItem>
-              <SelectItem value="18.11.2024">18.11.2024</SelectItem>
+              <SelectItem value="2024-12-19">19.12.2024</SelectItem>
+              <SelectItem value="2024-12-18">18.12.2024</SelectItem>
+              <SelectItem value="2024-12-17">17.12.2024</SelectItem>
+              <SelectItem value="2024-12-16">16.12.2024</SelectItem>
+              <SelectItem value="2024-12-15">15.12.2024</SelectItem>
+              <SelectItem value="2024-12-14">14.12.2024</SelectItem>
+              <SelectItem value="2024-12-13">13.12.2024</SelectItem>
             </SelectContent>
           </Select>
           <div className="flex gap-5 max-md:hidden">
