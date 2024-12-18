@@ -11,7 +11,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// import { useRouter } from "next/navigation";
+import {createEmployee} from "@/api/employee-api";
+import {useEmployeeStore} from "@/store/employees-store";
+import { useRouter } from "next/navigation";
+import {Schedule} from "@/types/schedule";
 
 const formSchema = z.object({
   surname: z.string().min(1, { message: "Это обязательное поле" }),
@@ -27,11 +30,13 @@ const formSchema = z.object({
   password: z.string().min(6, { message: "Некорректная длина пароля" }),
   workStart: z.string().min(1, { message: "Это обязательное поле" }),
   workEnd: z.string().min(1, { message: "Это обязательное поле" }),
-  salaryRate: z.string().min(1, { message: "Это обязательное поле" }),
+  salaryRate: z.coerce.number().min(1, { message: "Это обязательное поле" }),
 });
 
 export const AddForm = () => {
-  // const router = useRouter();
+  const router = useRouter();
+  const addEmployee = useEmployeeStore((state) => state.addEmployee);
+  const addSchedule = useEmployeeStore((state) => state.addSchedule);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,14 +46,42 @@ export const AddForm = () => {
       phone: "",
       email: "",
       password: "",
+      salaryRate: 0,
       workStart: "",
-      workEnd: "",
+      workEnd: ""
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    form.reset();
+    try {
+      const { newEmployee, schedule } = await createEmployee(
+        values.surname,
+        values.name,
+        values.patronymic,
+        values.phone,
+        values.email,
+        values.password,
+        values.salaryRate,
+        values.workStart,
+        values.workEnd
+      ) as { newEmployee: User, schedule: Schedule };
+      if (newEmployee) {
+        form.reset();
+        addEmployee(newEmployee);
+        addSchedule(schedule);
+        router.push("/");
+        // toast({
+        //   title: "добавлен",
+        // });
+      } else {
+        // toast({
+        //   title: "Ошибка добавления",
+        // });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -175,7 +208,7 @@ export const AddForm = () => {
           />
         </div>
         <Button className="w-full" type="submit">
-          Войти
+          Добавить
         </Button>
       </form>
     </Form>

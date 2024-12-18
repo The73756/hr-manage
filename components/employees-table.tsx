@@ -1,3 +1,4 @@
+"use client"
 import { DeleteIcon } from "./shared/delete-icon";
 import { EditIcon } from "./shared/edit-icon";
 import { Button } from "./ui/button";
@@ -16,12 +17,28 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog";
 import { User } from "@/types/user";
 import Link from "next/link";
+import {useEmployeeStore} from "@/store/employees-store";
+import {useEffect} from "react";
+import {Schedule} from "@/types/schedule";
 
 interface EmployeesTableProps {
-  employees: User[];
+  data: {
+    employees: User[];
+    schedules: Schedule[]
+  }
 }
 
-export const EmployeesTable = ({ employees }: EmployeesTableProps) => {
+export const EmployeesTable = ({ data }: EmployeesTableProps) => {
+  const employees = useEmployeeStore(state => state.employees);
+  const schedules = useEmployeeStore(state => state.schedules);
+  const setEmployees = useEmployeeStore(state => state.setEmployees);
+  const setSchedules = useEmployeeStore(state => state.setSchedules);
+
+  useEffect(() => {
+    setEmployees(data.employees)
+    setSchedules(data.schedules)
+  }, [data]);
+
   return (
     <div className="my-16 overflow-x-auto">
       <div className="w-full min-w-[915px]">
@@ -48,7 +65,7 @@ export const EmployeesTable = ({ employees }: EmployeesTableProps) => {
             </EmployeeCell>
             <div className="gap-2 grid grid-cols-[repeat(24,minmax(0,1fr))] col-span-4 md:col-span-3">
               <TableCell className="col-span-4 lg:col-span-5">
-                08:00-17:00
+                {schedules.find(schedule => schedule.userId === employee.id) ? `${schedules.find(schedule => schedule.id === employee.id)?.startWork}-${schedules.find(schedule => schedule.id === employee.id)?.endWork}` : "-"}
               </TableCell>
               <TableCell className="col-span-4">08:00</TableCell>
               <TableCell className="col-span-4">17:00</TableCell>
@@ -56,7 +73,7 @@ export const EmployeesTable = ({ employees }: EmployeesTableProps) => {
               <TableCell className="col-span-4">50 000</TableCell>
               <div className="flex justify-end gap-2 col-span-4 lg:col-span-3">
                 <Button className="bg-blue" intent="icon">
-                  <Link href="edit">
+                  <Link href="/edit">
                     <EditIcon />
                   </Link>
                 </Button>

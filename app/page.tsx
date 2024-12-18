@@ -12,16 +12,17 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { User } from "@/types/user";
+import {Schedule} from "@/types/schedule";
 
 export default async function Home() {
-  const employees = (await getEmployees()) as User[];
+  const {employees, schedules} = (await getEmployees()) as {employees: User[], schedules: Schedule[]};
 
   return (
     <ProtectedRoute>
       <Header />
       <div className="py-16 container">
         <FilterBar />
-        <EmployeesTable employees={employees} />
+        <EmployeesTable data={{employees, schedules}} />
         <Pagination>
           <PaginationContent>
             <PaginationItem>
