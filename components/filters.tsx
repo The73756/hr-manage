@@ -13,6 +13,8 @@ import {useState} from "react";
 export const Filters = () => {
   const currentDate = useEmployeeStore(state => state.currentDate)
   const setCurrentDate = useEmployeeStore(state => state.setCurrentDate)
+  const searchQuery = useEmployeeStore(state => state.searchQuery)
+  const setSearchQuery = useEmployeeStore(state => state.setSearchQuery)
 
   const [date, setDate] = useState(currentDate)
 
@@ -59,7 +61,9 @@ export const Filters = () => {
           </Select>
         </div>
       </div>
-      <Input className="min-w-[270px]" placeholder="Найти работника..." />
+      <Input className="min-w-[270px]" value={searchQuery} onChange={(e) => {
+        setSearchQuery(e.target.value)
+      }} placeholder="Найти работника..." />
     </div>
   );
 };
