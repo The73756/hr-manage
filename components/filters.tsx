@@ -56,16 +56,16 @@ export const Filters = () => {
               <SelectItem value="3">Фильтр 3</SelectItem>
             </SelectContent>
           </Select> */}
-          <Select>
-            <SelectTrigger className="max-xs:w-full min-w-[150px] xs:max-w-[200px]">
-              <SelectValue placeholder="Сортировать" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">По алфавиту</SelectItem>
-              <SelectItem value="2">По часам</SelectItem>
-              <SelectItem value="3">По зарплате</SelectItem>
-            </SelectContent>
-          </Select>
+          {/*<Select>*/}
+          {/*  <SelectTrigger className="max-xs:w-full min-w-[150px] xs:max-w-[200px]">*/}
+          {/*    <SelectValue placeholder="Сортировать" />*/}
+          {/*  </SelectTrigger>*/}
+          {/*  <SelectContent>*/}
+          {/*    <SelectItem value="1">По алфавиту</SelectItem>*/}
+          {/*    <SelectItem value="2">По часам</SelectItem>*/}
+          {/*    <SelectItem value="3">По зарплате</SelectItem>*/}
+          {/*  </SelectContent>*/}
+          {/*</Select>*/}
         </div>
       </div>
       <Input className="min-w-[270px]" value={searchQuery} onChange={(e) => {

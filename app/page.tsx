@@ -1,8 +1,8 @@
-import { getEmployees } from "@/api";
-import { EmployeesTable } from "@/components/employees-table";
-import { FilterBar } from "@/components/filter-bar";
-import { Header } from "@/components/header";
-import { ProtectedRoute } from "@/components/protected-route";
+import {getEmployees} from "@/api";
+import {EmployeesTable} from "@/components/employees-table";
+import {FilterBar} from "@/components/filter-bar";
+import {Header} from "@/components/header";
+import {ProtectedRoute} from "@/components/protected-route";
 import {
   Pagination,
   PaginationContent,
@@ -11,19 +11,26 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { User } from "@/types/user";
+import {User} from "@/types/user";
 import {Schedule} from "@/types/schedule";
+import {AdminProtectedRoute} from "@/components/admin-protected-route";
 
 export default async function Home() {
-  const {employees, schedules, workDays, salaries} = (await getEmployees()) as {employees: User[], schedules: Schedule[], workDays: any, salaries: any};
+  const {employees, schedules, workDays, salaries} = (await getEmployees()) as {
+    employees: User[],
+    schedules: Schedule[],
+    workDays: any,
+    salaries: any
+  };
 
   return (
     <ProtectedRoute>
-      <Header />
-      <div className="py-16 container">
-        <FilterBar />
-        <EmployeesTable data={{employees, schedules, workDays, salaries}} />
-        { /* <Pagination>
+      <AdminProtectedRoute>
+        <Header/>
+        <div className="py-16 container">
+          <FilterBar/>
+          <EmployeesTable data={{employees, schedules, workDays, salaries}}/>
+          { /* <Pagination>
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious href=""/>
@@ -40,7 +47,8 @@ export default async function Home() {
             </PaginationItem>
           </PaginationContent>
         </Pagination> */}
-      </div>
+        </div>
+      </AdminProtectedRoute>
     </ProtectedRoute>
   );
 }
