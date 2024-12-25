@@ -15,6 +15,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user-store";
 import {logout} from "@/api/user-api";
+import {User} from "@/types/user";
 
 export const Header = () => {
   const router = useRouter();
@@ -27,7 +28,7 @@ export const Header = () => {
     try {
       const res = await logout(user?.id);
       if (res) {
-        setUser({});
+        setUser({} as User);
         setIsAuth(false);
         localStorage.removeItem("user");
         router.push("/login");

@@ -3,6 +3,7 @@ import {EditForm} from "@/components/edit-form";
 import {useParams} from "next/navigation";
 import {useUserStore} from "@/store/user-store";
 import {useEmployeeStore} from "@/store/employees-store";
+import {User} from "@/types/user";
 
 export const EditEmployee = () => {
   const params = useParams()
@@ -15,7 +16,7 @@ export const EditEmployee = () => {
       <h1 className="md:max-w-[390px] font-semibold text-2xl text-blue sm:text-3xl md:text-4xl">
         Редактирование {user.id === id ? "данных" : "работника"}
       </h1>
-      <EditForm employee={employees.find(e => e.id === id)} admin={user.role === "ADMIN"} adminProfile={user.role === "ADMIN" && user.id === id}/>
+      <EditForm employee={employees.find(e => e.id === id) as User} admin={user.role === "ADMIN"} adminProfile={user.role === "ADMIN" && user.id === id}/>
     </div>
   );
 }
