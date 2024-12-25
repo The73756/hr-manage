@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { login } from "@/api";
 import { useUserStore } from "@/store/user-store";
-import {useEmployeeStore} from "@/store/employees-store";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Некорректные данные" }),
@@ -24,7 +23,6 @@ const formSchema = z.object({
 export const LoginForm = () => {
   const setUser = useUserStore((state) => state.setUser);
   const setIsAuth = useUserStore((state) => state.setIsAuth);
-  const setWorkDays = useEmployeeStore(state => state.setWorkDays)
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
