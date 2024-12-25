@@ -77,8 +77,8 @@ export const EmployeePage = ({data}: Props) => {
     if (employees.length > 0 && schedules.length > 0) {
       setEmployee(employees.find(emp => emp.id === id));
       setSchedule(schedules.find(sch => sch.userId === id));
-      setWorkDay(workDays.find(emp => emp.userId === id && emp.date === currentDate));
-      setSalary(salaries.find(sch => sch.userId === id && sch.monthDate.split("-")[1] === currentDate.split("-")[1]));
+      setWorkDay(workDays.find(emp => emp.userId === id && emp.date === currentDate) as any);
+      setSalary(salaries.find(sch => sch.userId === id && sch.monthDate.split("-")[1] === currentDate.split("-")[1]) as any);
     }
   }, [id, employees, schedules, workDays, salaries, currentDate]);
 
@@ -141,7 +141,7 @@ export const EmployeePage = ({data}: Props) => {
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
-                    <Button onClick={() => delEmployee(employee.id)}
+                    <Button onClick={() => delEmployee(employee?.id || 1)}
                             className="bg-red w-full text-white">Удалить</Button>
                     <DialogClose asChild>
                       <Button

@@ -15,7 +15,7 @@ interface editEmployeeProps {
 export const getEmployees = async () => {
   try {
     if (apiUrl) {
-      const res = await fetch(apiUrl + "/users?sort=surname&order=asc", {
+      const res = await fetch(apiUrl + "/users?_sort=surname&_order=asc", {
         headers: {
           "Content-Type": "application/json",
         },
