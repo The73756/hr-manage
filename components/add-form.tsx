@@ -13,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import {createEmployee} from "@/api/employee-api";
 import {useEmployeeStore} from "@/store/employees-store";
-import { useRouter } from "next/navigation";
 import {Schedule} from "@/types/schedule";
 import { User } from "@/types/user";
 
@@ -35,7 +34,6 @@ const formSchema = z.object({
 });
 
 export const AddForm = () => {
-  const router = useRouter();
   const addEmployee = useEmployeeStore((state) => state.addEmployee);
   const addSchedule = useEmployeeStore((state) => state.addSchedule);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -71,7 +69,7 @@ export const AddForm = () => {
         form.reset();
         addEmployee(newEmployee);
         addSchedule(schedule);
-        router.push("/");
+        window.location.href = "/";
         // toast({
         //   title: "добавлен",
         // });
