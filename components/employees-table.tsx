@@ -51,8 +51,6 @@ export const EmployeesTable = ({data}: EmployeesTableProps) => {
     setSchedules(data.schedules)
     setWorkDays(data.workDays)
     setSalaries(data.salaries)
-
-    console.log('employees-table [data]', data)
   }, [data]);
 
   const delEmployee = async (id: number) => {
