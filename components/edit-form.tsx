@@ -11,7 +11,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { User } from "@/types/user";
+import { useEmployeeStore } from "@/store/employees-store";
+import { editEmployee } from "@/api/employee-api";
+import { Schedule } from "@/types/schedule";
 
 const formSchema = z.object({
   surname: z.string().min(1, { message: "Это обязательное поле" }),
@@ -23,34 +26,69 @@ const formSchema = z.object({
     .regex(/^\+?[0-9]{10,15}$/, {
       message: "Некорректный номер телефона",
     }),
-  email: z.string().email({ message: "Некорректные данные" }),
   password: z.string().min(6, { message: "Некорректная длина пароля" }),
-  workStart: z.string().min(1, { message: "Это обязательное поле" }),
-  workEnd: z.string().min(1, { message: "Это обязательное поле" }),
-  salaryRate: z.string().min(1, { message: "Это обязательное поле" }),
+  startWork: z.string().min(1, { message: "Это обязательное поле" }),
+  endWork: z.string().min(1, { message: "Это обязательное поле" }),
+  salaryRate: z.coerce.number().min(1, { message: "Это обязательное поле" }),
 });
 
-export const EditForm = () => {
-  const admin = false;
-  const router = useRouter();
+interface EditFormProps {
+  admin: boolean;
+  adminProfile: boolean;
+  employee: User;
+}
+
+export const EditForm = ({ admin, adminProfile, employee }: EditFormProps) => {
+  const employees = useEmployeeStore((state) => state.employees);
+  const setEmployees = useEmployeeStore((state) => state.setEmployees);
+  const schedules = useEmployeeStore((state) => state.schedules);
+  const setSchedules = useEmployeeStore((state) => state.setSchedules);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      surname: "Иванов",
-      name: "Иван",
-      patronymic: "Иванович",
-      phone: "79999999999",
-      email: "i@mail.ru",
-      password: "1234567",
-      workStart: "12:30",
-      workEnd: "17:00",
-      salaryRate: "700",
+      surname: employee?.surname,
+      name: employee?.name,
+      patronymic: employee?.patronymic,
+      phone: employee?.phone,
+      password: employee?.password,
+      startWork: schedules?.find((sch) => sch.userId === employee.id)?.startWork,
+      endWork: schedules?.find((sch) => sch.userId === employee.id)?.endWork,
+      salaryRate: employee?.salaryRate,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    form.reset();
+    try {
+      const { updatedEmployee, updatedSchedule } = (await editEmployee({
+        id: employee.id,
+        ...values,
+      })) as { updatedEmployee: User; updatedSchedule: Schedule };
+      if (updatedEmployee && updatedSchedule) {
+        form.reset();
+        setEmployees(
+          employees.map((emp) =>
+            emp.id === updatedEmployee.id ? updatedEmployee : emp
+          )
+        );
+        setSchedules(
+          schedules.map((sch) =>
+            sch.userId === updatedEmployee.id ? updatedSchedule : sch
+          )
+        );
+        window.location.href = "/";
+        // toast({
+        //   title: "добавлен",
+        // });
+      } else {
+        // toast({
+        //   title: "Ошибка добавления",
+        // });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -109,19 +147,7 @@ export const EditForm = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Электронная почта" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {!admin && (
+          {(!admin || adminProfile) && (
             <FormField
               control={form.control}
               name="password"
@@ -140,7 +166,7 @@ export const EditForm = () => {
               <div className="flex gap-2">
                 <FormField
                   control={form.control}
-                  name="workStart"
+                  name="startWork"
                   render={({ field }) => (
                     <FormItem className="min-w-[calc(50%-8px)]">
                       <FormControl>
@@ -156,7 +182,7 @@ export const EditForm = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="workEnd"
+                  name="endWork"
                   render={({ field }) => (
                     <FormItem className="min-w-[calc(50%-8px)]">
                       <FormControl>
@@ -187,7 +213,7 @@ export const EditForm = () => {
           )}
         </div>
         <Button className="w-full" type="submit">
-          Войти
+          Сохранить
         </Button>
       </form>
     </Form>
