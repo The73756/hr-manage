@@ -99,9 +99,9 @@ export const EmployeesTable = ({data}: EmployeesTableProps) => {
                 <TableCell
                   className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.endTime || "-"}</TableCell>
                 <TableCell
-                  className={`col-span-4 ${currentWorkDay.find(date => date.userId === employee.id)!.totalTime >= 8 ? 'bg-green/50' : 'bg-red/50'}`}>
+                  className={`col-span-4 ${(currentWorkDay.find(date => date.userId === employee.id)?.totalTime || 0) >= 8 ? 'bg-green/50' : 'bg-red/50'}`}>
                   {currentWorkDay.find(date => date.userId === employee.id)?.totalTime
-                    ? formatTime(currentWorkDay.find(date => date.userId === employee.id)!.totalTime)
+                    ? formatTime(currentWorkDay.find(date => date.userId === employee.id)?.totalTime || 0)
                     : '-'}
                 </TableCell>
                 <TableCell
