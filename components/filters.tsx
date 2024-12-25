@@ -25,10 +25,17 @@ export const Filters = () => {
           setCurrentDate(val)
           setDate(val)
         }}>
-          <SelectTrigger className="w-full xs:w-[120px] min-w-[120px]">
+          <SelectTrigger className="w-full xs:w-[120px] min-w-[125px]">
             <SelectValue placeholder="Дата" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="2024-12-26">26.12.2024</SelectItem>
+            <SelectItem value="2024-12-25">25.12.2024</SelectItem>
+            <SelectItem value="2024-12-24">24.12.2024</SelectItem>
+            <SelectItem value="2024-12-23">23.12.2024</SelectItem>
+            <SelectItem value="2024-12-22">22.12.2024</SelectItem>
+            <SelectItem value="2024-12-21">21.12.2024</SelectItem>
+            <SelectItem value="2024-12-20">20.12.2024</SelectItem>
             <SelectItem value="2024-12-19">19.12.2024</SelectItem>
             <SelectItem value="2024-12-18">18.12.2024</SelectItem>
             <SelectItem value="2024-12-17">17.12.2024</SelectItem>

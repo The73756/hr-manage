@@ -3,7 +3,7 @@ import {apiUrl} from ".";
 export const getEmployees = async () => {
   try {
     if (apiUrl) {
-      const res = await fetch(apiUrl + "/users", {
+      const res = await fetch(apiUrl + "/users?sort=surname&order=asc", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -156,3 +156,4 @@ export const deleteEmployee = async (
     console.error(error);
   }
 };
+

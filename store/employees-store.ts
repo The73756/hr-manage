@@ -46,7 +46,7 @@ export const useEmployeeStore = create<EmployeeState>()((set) => ({
   workDays: [],
   salaries: [],
   searchQuery: "",
-  currentDate: "2024-12-19",
+  currentDate: new Date().toISOString().split("T")[0],
   sortOption: "",
   addEmployee: (employee) => set((state) => ({
     employees: [...state.employees, employee],

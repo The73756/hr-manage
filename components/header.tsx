@@ -14,18 +14,28 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user-store";
+import {logout} from "@/api/user-api";
 
 export const Header = () => {
   const router = useRouter();
   const setIsAuth = useUserStore((state) => state.setIsAuth);
   const setUser = useUserStore((state) => state.setUser);
   const auth = useUserStore((state) => state.isAuth);
+  const user = useUserStore((state) => state.user);
 
-  const logout = () => {
-    setUser({});
-    setIsAuth(false);
-    localStorage.removeItem("user");
-    router.push("/login");
+  const exit = async () => {
+    try {
+      const res = await logout(user?.id);
+      if (res) {
+        setUser({});
+        setIsAuth(false);
+        localStorage.removeItem("user");
+        router.push("/login");
+      } else {
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -47,7 +57,7 @@ export const Header = () => {
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Button onClick={logout} className="bg-red w-full text-white">
+                <Button onClick={exit} className="bg-red w-full text-white">
                   Выйти
                 </Button>
                 <DialogClose asChild>
