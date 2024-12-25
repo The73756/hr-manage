@@ -15,6 +15,7 @@ import {createEmployee} from "@/api/employee-api";
 import {useEmployeeStore} from "@/store/employees-store";
 import { useRouter } from "next/navigation";
 import {Schedule} from "@/types/schedule";
+import { User } from "@/types/user";
 
 const formSchema = z.object({
   surname: z.string().min(1, { message: "Это обязательное поле" }),

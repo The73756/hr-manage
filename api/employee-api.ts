@@ -1,5 +1,17 @@
 import {apiUrl} from ".";
 
+interface editEmployeeProps {
+  id: number,
+  surname: string,
+  name: string,
+  patronymic: string,
+  phone: string,
+  password: string,
+  salaryRate: number,
+  startWork: string,
+  endWork: string,
+}
+
 export const getEmployees = async () => {
   try {
     if (apiUrl) {
@@ -123,6 +135,70 @@ export const createEmployee = async (
       }
 
       return {newEmployee: newUser, schedule: await scheduleRes.json()};
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const editEmployee = async ({
+                                     id,
+                                     surname,
+                                     name,
+                                     patronymic,
+                                     phone,
+                                     password,
+                                     salaryRate,
+                                     startWork,
+                                     endWork
+                                   }: editEmployeeProps) => {
+  try {
+    if (apiUrl) {
+      const res = await fetch(apiUrl + `/users/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          surname,
+          name,
+          patronymic,
+          phone,
+          password,
+          salaryRate
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        next: {
+          revalidate: 0,
+          tags: ["employee"],
+        },
+      });
+
+      if (!res.ok) {
+        console.log("Failed to edit employee");
+        return;
+      }
+
+      const user = await res.json();
+
+      const scheduleRes = await fetch(apiUrl + `/schedule/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          startWork,
+          endWork
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!scheduleRes.ok) {
+        console.log("Failed to edit schedule");
+        return;
+      }
+
+      const updatedSchedule = await scheduleRes.json();
+
+      return { updatedEmployee: user, updatedSchedule };
     }
   } catch (error) {
     console.error(error);

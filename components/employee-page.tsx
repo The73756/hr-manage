@@ -29,6 +29,7 @@ import {useParams, useRouter} from "next/navigation";
 import {Schedule} from "@/types/schedule";
 import {User} from "@/types/user";
 import {deleteEmployee} from "@/api/employee-api";
+import {useUserStore} from "@/store/user-store";
 
 interface Props {
   data: {
@@ -55,6 +56,8 @@ export const EmployeePage = ({data}: Props) => {
   const setSalaries = useEmployeeStore(state => state.setSalaries);
   const currentDate = useEmployeeStore(state => state.currentDate)
   const setCurrentDate = useEmployeeStore(state => state.setCurrentDate)
+
+  const user = useUserStore(state => state.user);
 
   const [date, setDate] = useState(currentDate)
 
@@ -102,7 +105,7 @@ export const EmployeePage = ({data}: Props) => {
             setDate(val)
           }}>
             <SelectTrigger className="w-full xs:w-[120px] min-w-[125px]">
-              <SelectValue placeholder="Дата" />
+              <SelectValue placeholder="Дата"/>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="2024-12-26">26.12.2024</SelectItem>
@@ -123,32 +126,34 @@ export const EmployeePage = ({data}: Props) => {
           </Select>
           <div className="flex gap-5 max-md:hidden">
             <Button>
-              <Link href={`/edit/${id}`}>Редактировать работника</Link>
+              <Link href={`/edit/${id}`}>Редактировать {user.id === id ? "данные" : "работника"}</Link>
             </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button intent="secondary">Удалить работника</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Удалить выбранного работника?</DialogTitle>
-                  <DialogDescription>
-                    Это действие нельзя отменить
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                  <Button onClick={() => delEmployee(employee.id)} className="bg-red w-full text-white">Удалить</Button>
-                  <DialogClose asChild>
-                    <Button
-                      intent="secondary"
-                      className="border-blue w-full text-blue"
-                    >
-                      Отменить
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            {user.role === "ADMIN" &&
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button intent="secondary">Удалить работника</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Удалить выбранного работника?</DialogTitle>
+                    <DialogDescription>
+                      Это действие нельзя отменить
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button onClick={() => delEmployee(employee.id)}
+                            className="bg-red w-full text-white">Удалить</Button>
+                    <DialogClose asChild>
+                      <Button
+                        intent="secondary"
+                        className="border-blue w-full text-blue"
+                      >
+                        Отменить
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>}
           </div>
           <div className="flex gap-2 md:hidden">
             <Button className="bg-blue" intent="icon">
