@@ -2,6 +2,7 @@ import {TableCell} from "./ui/table-cell";
 import {TableHead} from "./ui/table-head";
 import {Schedule} from "@/types/schedule";
 import {formatTime} from "@/utils/format-time";
+import {formatUTC} from "@/utils/format-utc";
 
 interface OneEmployeeTableProps {
   data: {
@@ -25,8 +26,8 @@ export const OneEmployeeTable = ({data}: OneEmployeeTableProps) => {
         <TableCell>
           {data.schedule?.startWork}-{data.schedule?.endWork}
         </TableCell>
-        <TableCell>{data.workDay?.startTime || "-"}</TableCell>
-        <TableCell>{data.workDay?.endTime || "-"}</TableCell>
+        <TableCell>{data.workDay?.startTime ? formatUTC(data.workDay?.startTime) : "-"}</TableCell>
+        <TableCell>{data.workDay?.endTime ? formatUTC(data.workDay?.endTime) : "-"}</TableCell>
         <TableCell className={data.workDay?.totalTime >= 8 ? 'bg-green/50' : 'bg-red/50'}>
           {data.workDay?.totalTime
             ? formatTime(data.workDay?.totalTime)

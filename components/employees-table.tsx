@@ -22,6 +22,7 @@ import {useEffect} from "react";
 import {Schedule} from "@/types/schedule";
 import {deleteEmployee} from "@/api/employee-api";
 import {formatTime} from "@/utils/format-time";
+import {formatUTC} from "@/utils/format-utc";
 
 interface EmployeesTableProps {
   data: {
@@ -95,14 +96,15 @@ export const EmployeesTable = ({data}: EmployeesTableProps) => {
                   {schedules.find(schedule => schedule.userId === employee.id) ? `${schedules.find(schedule => schedule.id === employee.id)?.startWork}-${schedules.find(schedule => schedule.id === employee.id)?.endWork}` : "-"}
                 </TableCell>
                 <TableCell
-                  className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.startTime || "-"}</TableCell>
+                  className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.startTime ? formatUTC(currentWorkDay.find(date => date.userId === employee.id)?.startTime) : "-"}</TableCell>
                 <TableCell
-                  className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.endTime || "-"}</TableCell>
+                  className="col-span-4">{currentWorkDay.find(date => date.userId === employee.id)?.endTime ? formatUTC(currentWorkDay.find(date => date.userId === employee.id)?.endTime) : "-"}</TableCell>
                 <TableCell
                   className={`col-span-4 ${(currentWorkDay.find(date => date.userId === employee.id)?.totalTime || 0) >= 8 ? 'bg-green/50' : 'bg-red/50'}`}>
                   {currentWorkDay.find(date => date.userId === employee.id)?.totalTime
                     ? formatTime(currentWorkDay.find(date => date.userId === employee.id)?.totalTime || 0)
                     : '-'}
+
                 </TableCell>
                 <TableCell
                   className="col-span-4">{currentSalaries.find(salary => salary.userId === employee.id)?.totalSalary || "-"}</TableCell>
