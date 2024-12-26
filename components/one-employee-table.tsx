@@ -33,7 +33,7 @@ export const OneEmployeeTable = ({data}: OneEmployeeTableProps) => {
             ? formatTime(data.workDay?.totalTime)
             : "-"}
         </TableCell>
-        <TableCell>{data.salary?.totalSalary ? Math.round(data.salary?.totalSalary)
+        <TableCell>{data.salary?.totalSalary ? Math.round(data.salary?.totalSalary || 0)
           : "-"}</TableCell>
       </div>
     </div>

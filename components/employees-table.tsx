@@ -107,7 +107,7 @@ export const EmployeesTable = ({data}: EmployeesTableProps) => {
                 </TableCell>
                 <TableCell className="col-span-4">
                   {currentSalaries.find(salary => salary.userId === employee.id)
-                    ? Math.round(currentSalaries.find(salary => salary.userId === employee.id)?.totalSalary)
+                    ? Math.round(currentSalaries.find(salary => salary.userId === employee.id)?.totalSalary || 0)
                     : "-"}
                 </TableCell>
                 <div className="flex justify-end gap-2 col-span-4 lg:col-span-3">
